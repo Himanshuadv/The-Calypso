@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(helmet());
@@ -17,7 +18,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // body parser , reading data from body into req.body
-
+app.use(cors({ credentials: true, origin: true }));
 app.use(express.json({ limit: "10kb" })); //middleWare
 app.use(cookieParser());
 app.use(

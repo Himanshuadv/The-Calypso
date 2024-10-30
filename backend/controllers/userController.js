@@ -34,27 +34,23 @@ const createAndSendToken = (user, statusCode, res) => {
 //create a new user
 // Create a new user
 exports.signUp = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const {
     name,
     email,
     registrationNumber,
-    year,
-    semester,
-    branch,
-    phoneNo,
     password,
     confirmPassword,
   } = req.body;
-
+  
+  console.log("hello I am here");
+  
+  
   // Create a new user instance
   const newUser = await User.create({
     name,
     email,
     registrationNumber,
-    year,
-    semester,
-    branch,
-    phoneNo,
     password,
     confirmPassword,
   });

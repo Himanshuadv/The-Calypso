@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please enter your name"],
+    // required: [true, "Please enter your name"],
     trim: true,
   },
   email: {
@@ -29,13 +29,13 @@ const userSchema = new mongoose.Schema({
   },
   year: {
     type: Number,
-    required: [true, "Year is required"],
+    // required: [true, "Year is required"],
     min: [1, "Year must be at least 1"],
     max: [4, "Year cannot exceed 4"],
   },
   semester: {
     type: Number,
-    required: [true, "Semester is required"],
+    // required: [true, "Semester is required"],
     min: [1, "Semester must be at least 1"],
     max: [8, "Semester cannot exceed 8"],
   },
@@ -45,11 +45,11 @@ const userSchema = new mongoose.Schema({
       values: ["CSE", "ECE", "ME", "EE", "CE", "CHE"],
       message: "{VALUE} is not a valid branch",
     },
-    required: [true, "Branch is required"],
+    // required: [true, "Branch is required"],
   },
   phoneNo: {
     type: String,
-    required: [true, "Phone number is required"],
+    // required: [true, "Phone number is required"],
     validate: {
       validator: (v) => validator.isMobilePhone(v, "en-IN"), // Adjust for region if necessary
       message: "Please enter a valid phone number",
