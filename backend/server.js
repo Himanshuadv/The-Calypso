@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const url = "mongodb+srv://hthimanshu7390:MTXxtmhvTKqSbXQW@cluster0.psg4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const url =
+  "mongodb+srv://hthimanshu7390:MTXxtmhvTKqSbXQW@cluster0.psg4r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 dotenv.config({
   path: "./config.env",
 });
@@ -19,7 +20,7 @@ const app = require("./app");
 //   "<PASSWORD>",
 //   process.env.DATABASE_PASSWORD
 // );
-const DB = url;
+const DB = "mongodb://localhost:27017/";
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
