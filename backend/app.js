@@ -12,6 +12,7 @@ app.use(helmet());
 ////////////////////////////////////
 // Import of all the route
 const userRouter = require("./routes/userRoute");
+const gameRouter = require("./routes/gameRoute");
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -49,5 +50,6 @@ app.use((req, res, next) => {
 ////////////////////////////////////////////
 // Here all the routes are
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/game", gameRouter);
 
 module.exports = app;

@@ -34,24 +34,31 @@ const createAndSendToken = (user, statusCode, res) => {
 //create a new user
 // Create a new user
 exports.signUp = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  const { name, email, registrationNumber, password, confirmPassword } =
-    req.body;
-
-  console.log("hello I am here");
-
+  const {
+    name,
+    email,
+    registrationNumber,
+    year,
+    semester,
+    branch,
+    phoneNo,
+    password,
+    confirmPassword,
+  } = req.body;
   // Create a new user instance
   const newUser = await User.create({
     name,
     email,
     registrationNumber,
+    year,
+    semester,
+    branch,
+    phoneNo,
     password,
     confirmPassword,
   });
-
   createAndSendToken(newUser, 201, res);
 });
-
 //get all user
 exports.getAll = catchAsync(async (req, res, next) => {
   const user = await User.find();
@@ -80,7 +87,20 @@ exports.getUserById = catchAsync(async (req, res, next) => {
     },
   });
 });
-
+// Get User by the regNumber
+exports.getUserByRegNumber = catchAsync(async (req, res, next) => {
+  const registrationNumber = req.params.id;
+  const user = await User.find({ registrationNumber });
+  if (!user) {
+    return next(new AppError("Please enter a valid registration number"));
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
 // update the user
 exports.updateUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -195,3 +215,40 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+exports.makeCR = catchAsync(async (req, res, next) => {
+  // Use findByIdAndUpdate to update the user directly
+  const student = await User.findByIdAndUpdate(
+    req.params.id,
+    { isCR: true, role: "cr" },
+    { new: true, runValidators: true }
+  );
+
+  // Check if the user was found and updated
+  if (!student) {
+    return next(new AppError("User not found", 404));
+  }
+
+  // Send a response to the client
+  res.status(200).json({
+    status: "success",
+    data: {
+      student,
+    },
+    message: "User has been successfully promoted to CR",
+  });
+});
+
+exports.getBatchmate = catchAsync(async (req, res, next) => {
+  const branch = req.user.branch;
+  console.log(branch);
+
+  const users = await User.find({ branch });
+  res.status(200).json({
+    status: "success",
+    length: users.length,
+    data: {
+      users,
+    },
+  });
+});
